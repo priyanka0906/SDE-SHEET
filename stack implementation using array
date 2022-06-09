@@ -3,12 +3,12 @@ class Stack {
     
 public:
     
-    vector<int>v;
+   int *v;
     int i = 0;
     int cap=0;
     Stack(int capacity) {
         // Write your code here.
-        v.resize(capacity);
+        v = new int[capacity];
         cap=capacity;
     }
 
