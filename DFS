@@ -1,0 +1,37 @@
+vector<vector<int>>ans;
+vector<int>visited;
+void dfs(vector<int>adj[],int cur,vector<int>&v)
+{
+    v.push_back(cur);
+    visited[cur]=1;
+    for(int j:adj[cur])
+    {
+        if(visited[j]==0)
+        {
+            dfs(adj,j,v);
+        }
+    }
+}
+vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)
+{
+    ans.clear();
+    vector<int>adj[V];
+    visited.resize(V,0);
+    for(int i=0;i<E;i++)
+    {
+        int u = edges[i][0];
+        int v = edges[i][1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    for(int i=0;i<V;i++){
+    vector<int>v;
+    if(visited[i]==0)
+    {
+        dfs(adj,i,v);
+        ans.push_back(v);
+        
+    }
+    }
+    return ans;
+}
