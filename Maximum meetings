@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+
+static bool comp(vector<int>&v1,vector<int>&v2)
+{
+    if(v1[0]<v2[0]) return true;
+    else if(v1[0]>v2[0]) return false;
+    else if(v1[2]<v2[2]) return true;
+    return false;
+}
+
+vector<int> maximumMeetings(vector<int> &start, vector<int> &end) {
+    // Write your code here.
+    int n=start.size();
+    
+    vector<vector<int>>v(n,vector<int>(3));
+    for(int i=0;i<n;i++)
+    {
+        v[i][0]=end[i];
+        v[i][1]=start[i];
+        v[i][2]=i+1;
+    }
+    vector<int>ans;
+    sort(v.begin(),v.end(),comp);
+    int t=-1;
+    for(int i=0;i<n;i++)
+    {
+       
+        if(v[i][1]>t)
+        {
+            // cout<<start[i]<<" ";
+            ans.push_back(v[i][2]);
+            t=v[i][0];
+        }
+    }
+    return ans;
+}
