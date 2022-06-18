@@ -1,0 +1,109 @@
+class Node{
+    
+   public: 
+    int wc;
+    int pc=0;
+    Node* child[26];
+    
+    Node()
+    {
+        wc=0;
+        pc=0;
+    }
+    
+    
+};
+
+class Trie{
+
+    public:
+
+    Node * root;
+    Trie(){
+        // Write your code here.
+        root = new Node();
+    }
+
+    void insert(string &word){
+        // Write your code here.
+        Node*temp=root;
+        for(int i=0;i<word.size();i++)
+        {
+            int ind = word[i]-'a';
+            if(temp->child[ind]==NULL)
+            {
+                Node*n = new Node();
+                temp->child[ind] = n;
+                
+                temp=n;
+                temp->pc++;
+                
+            }
+            else
+            {
+                temp=temp->child[ind];
+                temp->pc++;
+            }
+        }
+        temp->wc++;
+    }
+
+    int countWordsEqualTo(string &word){
+       Node*temp=root;
+        for(int i=0;i<word.size();i++)
+        {
+            int ind = word[i]-'a';
+            if(temp->child[ind]!=NULL)
+            {
+               
+               temp = temp->child[ind];
+               
+            }
+            else
+            {
+               return 0;
+            }
+        }
+        return temp->wc;
+        
+    }
+
+    int countWordsStartingWith(string &word){
+        Node*temp=root;
+        for(int i=0;i<word.size();i++)
+        {
+            int ind = word[i]-'a';
+            if(temp->child[ind]!=NULL)
+            {
+               
+               temp = temp->child[ind];
+               
+            }
+            else
+            {
+               return 0;
+            }
+        }
+        return temp->pc;
+    }
+
+    void erase(string &word){
+        Node*temp=root;
+        for(int i=0;i<word.size();i++)
+        {
+            int ind = word[i]-'a';
+            if(temp->child[ind]!=NULL)
+            {
+               
+               temp = temp->child[ind];
+                temp->pc--;
+               
+            }
+            else
+            {
+               return;
+            }
+        }
+        temp->wc--;
+    }
+};
