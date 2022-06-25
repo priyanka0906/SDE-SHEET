@@ -2,7 +2,7 @@
 string cycleDetection (vector<vector<int>>& edges, int n, int m)
 {
    vector<int>adj[n+1];
-    vector<int>visited(n+1,0),par(n+1,0);
+    vector<int>visited(n+1,0);
     
     for(int i=0;i<m;i++)
     {
@@ -12,29 +12,28 @@ string cycleDetection (vector<vector<int>>& edges, int n, int m)
         adj[v].push_back(u);
     }
     
-       for(int i=1;i<=n;i++){
-           
+    
+    for(int i=1;i<=n;i++){
      if(visited[i]==0){
-    queue<int>q;
-    q.push(i);
-    visited[i]=1;
-    par[i]=-1;
- 
+     queue<pair<int,int>>q;
+     q.push({i,-1});
+     visited[i]=1;
     while(!q.empty())
     {
-        int cur = q.front();
+        int cur = q.front().first;
+        int par = q.front().second;
         q.pop();
         for(int j:adj[cur])
         {
-            if(visited[j]==1&&par[cur]!=j)
+            if(visited[j]==1&&j!=par)
             {
                 return "Yes";
             }
             else if(visited[j]==0)
             {
-                q.push(j);
+                q.push({j,cur});
                 visited[j]=1;
-                par[j]=cur;
+                
             }
         }
     }
