@@ -1,0 +1,117 @@
+
+#include<bits/stdc++.h>
+class Node{
+    public:
+    Node*child[2];
+};
+class trie{
+   Node*t;
+    public:
+    trie(){
+        t = new Node();
+    }
+    
+    void insert(int n)
+    {
+        int ind =31;
+        Node*cur = t;
+        while(ind>=0)
+        {
+            int mask = 1<<ind;
+            int bit = (mask&n)>0?1:0;
+            if(bit==0)
+            {
+                if(cur->child[0]==NULL)
+                {
+                    cur->child[0]=new Node();
+                }
+                cur=cur->child[0];
+            }
+            else
+            {
+                if(cur->child[1]==NULL)
+                {
+                    cur->child[1]=new Node();
+                }
+                cur=cur->child[1];
+            }
+            ind--;
+        }
+    }
+    
+    int search(int n)
+    {
+        int ind =31;
+        int ans=0;
+        Node*cur = t;
+        while(ind>=0)
+        {
+            int mask = 1<<ind;
+            int bit = (mask&n)>0?1:0;
+            if(bit==1)
+            {
+                if(cur->child[0]!=NULL)
+                {
+                    cur=cur->child[0];
+                    
+                    
+                }
+                else
+                {
+                    ans=ans|mask;
+                     cur=cur->child[1];
+                }
+            }
+            else
+            {
+                if(cur->child[1]!=NULL)
+                {
+                    ans = ans|mask;
+                    cur=cur->child[1];
+                }
+                else
+                {
+                    cur=cur->child[0];
+                }
+            }
+            ind--;
+        }
+       return ans; 
+    }
+};
+
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int>> &queries){
+	
+   int n = queries.size();
+    vector<int>ans(n,0);
+    sort(arr.begin(),arr.end());
+    vector<pair<int,pair<int,int>>>v;
+    
+    for(int i=0;i<n;i++)
+    {
+        int x = queries[i][0];
+        int y = queries[i][1];
+        v.push_back({y,{x,i}});
+    }
+    sort(v.begin(),v.end());
+    
+    trie*root=new trie();
+    int ind =0;
+    for(int i=0;i<n;i++)
+    {
+        int x = v[i].second.first;
+        int a = v[i].first;
+        int j = v[i].second.second;
+        while(ind<arr.size()&&arr[ind]<=a)
+        {
+            root->insert(arr[ind]);
+            ind++;
+        }
+        
+        if(ind==0)
+            ans[j]=-1;
+        else
+            ans[j]=root->search(x)^x;
+    }
+    return ans;
+}
