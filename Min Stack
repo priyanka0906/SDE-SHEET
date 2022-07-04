@@ -54,3 +54,90 @@ class minStack
             
 		}
 };
+
+
+
+
+// 2nd method O(n) space
+// Implement class for minStack.
+#include<bits/stdc++.h>
+class minStack
+{
+	// Write your code here.
+	
+	public:
+		
+		// Constructor
+       stack<int>st;
+    int mini ;
+		minStack() 
+		{ 
+			// Write your code here.
+            while(st.empty()==false) st.pop();
+		}
+		
+		// Function to add another element equal to num at the top of stack.
+		void push(int num)
+		{
+			// Write your code here.
+            if(st.empty())
+            {
+                st.push(num);
+                mini=num;
+            }
+           else if(num<mini)
+            {
+                st.push(2*num-mini);
+                mini=num;
+            }
+            else
+                st.push(num);
+		}
+		
+		// Function to remove the top element of the stack.
+		int pop()
+		{
+			// Write your code here.
+            if(st.empty())
+                return -1;
+            int ele = st.top();
+            st.pop();
+            if(ele<mini)
+            {
+                int r = mini;
+                mini = 2*mini - ele;
+                return r;
+            }
+            return ele;
+            
+                
+             
+		}
+		
+		// Function to return the top element of stack if it is present. Otherwise return -1.
+		int top()
+		{
+			// Write your code here.
+             if(st.empty())
+                return -1;
+           int ele = st.top();
+        
+            
+           if(ele<mini)
+           {
+              return mini;
+           }
+            return ele;
+          
+           
+            
+		}
+		
+		// Function to return minimum element of stack if it is present. Otherwise return -1.
+		int getMin()
+		{
+			// Write your code here.
+            if(st.empty())return -1;
+            return mini;
+		}
+};
