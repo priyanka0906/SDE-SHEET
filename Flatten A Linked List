@@ -1,0 +1,63 @@
+#include <bits/stdc++.h> 
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+class Node {
+public:
+	int data;
+	Node* next;
+	Node* child;
+
+	Node(int data) {
+		this->data = data;
+		this->next = NULL;
+		this->child = NULL;
+	}
+};
+
+*****************************************************************/
+Node* merge(Node*l1,Node*l2)
+{
+   
+    Node* h=new Node(-1),*t=h;
+    
+    while(l1&&l2)
+    {
+        if(l1->data<l2->data)
+        {
+            t->child=l1;
+            t->next=NULL;
+            l1=l1->child;
+           
+        }
+        else
+        {
+            t->child=l2;
+            t->next=NULL;
+            l2=l2->child;
+          
+        }
+        
+        t=t->child;
+    }
+    
+    if(l1)
+      t->child=l1;
+    if(l2)
+    t->child=l2;
+    
+    h->child->next=NULL;
+    return h->child;
+}
+Node* flattenLinkedList(Node* root) 
+{
+	// Write your code here
+    if(root==NULL||root->next==NULL)
+        return root;
+    
+   root->next = flattenLinkedList(root->next);
+    root = merge(root,root->next);
+    return root;
+    
+}
