@@ -20,12 +20,8 @@
 Node *firstNode(Node *head)
 {
 	//    Write your code here.
-    if(head==NULL)
-        return head;
-    if(head->next==NULL)
-    {
+    if(head==NULL||head->next==NULL)
         return NULL;
-    }
     Node*slow=head,*fast=head;
     while(fast&&fast->next)
     {
