@@ -1,0 +1,22 @@
+void insert_right(stack<int>&s,int x)
+{
+    if(s.empty()||s.top()<x)
+        s.push(x);
+    else
+    {
+        int a = s.top();
+        s.pop();
+        insert_right(s,x);
+        s.push(a);
+    }
+}
+void sortStack(stack<int> &s)
+{
+    if(!s.empty())
+    {int curr = s.top();
+     //cout<<curr<<endl;
+    s.pop();
+    sortStack(s);
+    insert_right(s,curr);
+    }
+}
