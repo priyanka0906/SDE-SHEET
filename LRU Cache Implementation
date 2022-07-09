@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+class LRUCache
+{
+public:
+    class Node{
+        public:
+        Node*prev;
+        Node*next;
+        int key;
+        int val;
+        Node(int k,int v)
+        {
+            key=k;
+            val=v;
+        }
+    };
+    map<int,Node*>mp;
+    Node*head=new Node(-1,-1);
+    Node*tail=new Node(-1,-1);
+    int cap;
+    void deleteNode(Node*n)
+    {
+        Node*delp = n->prev;
+        Node*deln = n->next;
+        delp->next = deln;
+        deln->prev=delp;
+    }
+    void addNode(Node*n)
+    {
+        Node*temp = head ->next;
+        n->next = temp;
+        n->prev = head;
+        temp->prev=n;
+        head->next = n;
+    }
+    LRUCache(int capacity)
+    {
+        // Write your code here
+        cap=capacity;
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    int get(int key)
+    {
+        // Write your code here
+        int ans=-1;
+        if(mp.find(key)!=mp.end())
+        {
+            Node*res = mp[key];
+            ans = res->val;
+            mp.erase(key);
+            deleteNode(res);
+            addNode(res);
+            mp[key]=head->next;
+            return ans;
+        }
+        else
+            return -1;
+    }
+
+    void put(int key, int value)
+    {
+        // Write your code here
+        if(mp.find(key)!=mp.end())
+        {
+            deleteNode(mp[key]);
+            mp.erase(key);
+        }
+        else if(mp.size()==cap)
+        {
+            Node*d = tail->prev;
+            mp.erase(d->key);
+            deleteNode(tail->prev);
+        }
+        
+        Node*n = new Node(key,value);
+        addNode(n);
+        mp[key]=head->next;
+            
+    }
+};
