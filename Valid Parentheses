@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+bool isValidParenthesis(string e)
+{
+    map<char,char>mp;
+    mp[')']='(';
+    mp[']']='[';
+    mp['}']='{';
+    
+    stack<int>s;
+    int i=0;
+    while(i<e.size())
+    {
+        if(e[i]=='('||e[i]=='{'||e[i]=='[')
+        {
+            s.push(e[i]);
+            i++;
+            continue;
+        }
+        else
+        { if(s.empty())
+            return false;
+          if(s.top()==mp[e[i]])
+          {
+              s.pop();
+              i++;
+              continue;
+          }
+         else
+             return false;
+            
+        }
+        
+    }
+    
+    if(i==e.size()&&s.empty())
+        return true;
+    return false;
+    
+    
+}
