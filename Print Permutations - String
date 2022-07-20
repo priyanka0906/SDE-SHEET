@@ -1,0 +1,21 @@
+void helper(int index,string &s,vector<string>&ans)
+{
+    if(index==s.size())
+    {
+        ans.push_back(s);
+        return;
+    }
+    for(int i=index;i<s.length();i++)
+    {
+        swap(s[index],s[i]);
+        helper(index+1,s,ans);
+        swap(s[index],s[i]);
+    }
+}
+vector<string> findPermutations(string &s) {
+    vector<string>v;
+    helper(0,s,v);
+    return v;
+    
+    // Write your code here.
+}
